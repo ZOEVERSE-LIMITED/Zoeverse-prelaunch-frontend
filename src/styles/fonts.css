@@ -1,0 +1,77 @@
+/* =========================================================================
+   FONTS — SELF-HOSTED, DELIBERATELY
+   =========================================================================
+   These files are served from `public/fonts/` rather than fetched from Google
+   Fonts. Three reasons, all of them load-bearing:
+
+     1. A CDN request is a third-party connection made by somebody filling in a
+        health form. There is no reason for Google to see that request.
+     2. On a congested Lagos cell, a blocked or slow font host means the page
+        silently renders in Georgia and Arial, and the design that was signed
+        off is not the design anybody sees.
+     3. It is one fewer thing that can be down.
+
+   `font-display: swap` means text is READABLE IMMEDIATELY in a fallback and
+   swaps when the real face arrives. On a slow connection the alternative —
+   `block` — is a blank page holding words somebody is trying to read.
+
+   ONLY THE WEIGHTS ACTUALLY USED ARE LOADED. Literata 700 for headings, DM Sans
+   400/500/700 for everything else, DM Mono 400/500 for numbers. Each extra
+   weight is ~15KB somebody pays for on a metered plan.
+   ========================================================================= */
+
+@font-face {
+  font-family: "Literata";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/Literata-600.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Literata";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/Literata-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/DMSans-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/DMSans-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/DMSans-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "DM Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/DMMono-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "DM Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/DMMono-500.woff2") format("woff2");
+}

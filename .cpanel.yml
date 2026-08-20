@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/bxakfskk/zoeverse-prelaunch/
+    - /bin/rm -rf ${DEPLOYPATH}/*
+    - /bin/cp -R dist/* ${DEPLOYPATH}

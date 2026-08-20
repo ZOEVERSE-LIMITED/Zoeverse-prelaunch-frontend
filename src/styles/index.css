@@ -1,0 +1,64 @@
+@import "./tokens.css";
+@import "./fonts.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  html {
+    /* Stop iOS bumping font size when the phone is turned sideways. */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-cream text-ink font-sans text-body antialiased;
+  }
+
+  /* Numbers are DM Mono everywhere, and never heavier than 500. */
+  .num {
+    @apply font-mono font-normal tabular-nums;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display font-bold text-ink;
+    text-wrap: balance;
+  }
+
+  
+  :focus-visible {
+    @apply outline-none ring-2 ring-teal-ink ring-offset-2 ring-offset-cream;
+  }
+
+  
+  .zoe-focus-row:has(:focus-visible) {
+    @apply ring-2 ring-teal-ink ring-offset-2 ring-offset-cream;
+  }
+
+  
+  img {
+    @apply max-w-full h-auto;
+  }
+}
+
+@layer utilities {
+  .bg-cream{
+    background-color: 250 248 244;
+  }
+  .zoe-container {
+    @apply mx-auto w-full max-w-measure px-gutter;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

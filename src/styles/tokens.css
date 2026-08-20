@@ -1,0 +1,30 @@
+
+
+:root {
+  --zoe-teal: 2 128 144;
+  --zoe-teal-ink: 2 90 101;
+  --zoe-teal-deep: 1 68 76;
+  --zoe-teal-wash: 230 241 242;
+  --zoe-ink: 13 27 42;
+  --zoe-ink-muted: 74 90 106;
+  --zoe-ink-soft: 94 110 124;
+  --zoe-cream: 250 248 244;
+  --zoe-surface: 255 255 255;
+  --zoe-line: 231 226 218;
+  --zoe-danger: 179 38 30;
+  --zoe-danger-wash: 253 236 234;
+  --zoe-success: 20 102 63;
+  --zoe-success-wash: 232 243 236;
+  --zoe-whatsapp: 37 211 102;
+  --zoe-gutter: 1.25rem;
+  --zoe-measure: 34rem;
+  
+  /* Corner radii. */
+  --zoe-radius-sm: 0.375rem;
+  --zoe-radius: 0.75rem;
+  --zoe-radius-lg: 1rem;
+
+  /* Elevation. Soft and warm, never a hard grey drop shadow. */
+  --zoe-shadow-card: 0 1px 2px rgb(13 27 42 / 0.04), 0 8px 24px rgb(13 27 42 / 0.06);
+  --zoe-shadow-raised: 0 2px 4px rgb(13 27 42 / 0.06), 0 12px 32px rgb(13 27 42 / 0.1);
+}

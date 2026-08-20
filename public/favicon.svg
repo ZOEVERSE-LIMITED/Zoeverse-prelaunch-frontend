@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!--
+    PLACEHOLDER. The real ZOEVERSE mark is a five-petal lotus and has not been
+    supplied as a file. A "z" in the brand teal is honest about being a stand-in;
+    an approximated lotus drawn from a written description would look
+    approximately right and be wrong, which is harder to spot and worse.
+  -->
+  <rect width="32" height="32" rx="7" fill="#028090"/>
+  <text x="16" y="23" font-family="Georgia, serif" font-size="20" font-weight="bold"
+        text-anchor="middle" fill="#FAF8F4">z</text>
+</svg>
