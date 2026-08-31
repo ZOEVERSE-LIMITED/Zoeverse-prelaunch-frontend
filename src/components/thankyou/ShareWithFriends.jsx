@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 /* =========================================================================
    ASK ONE PERSON TO BRING ANOTHER
    =========================================================================
-   Before launch, the only thing that matters is how many verified experiences
+   Before launch, the main thing that matters is how many genuine experiences
    exist. The moment somebody has just finished writing one is the moment they
    are most willing to ask a friend, so this sits on the thank-you page and
    nowhere else.

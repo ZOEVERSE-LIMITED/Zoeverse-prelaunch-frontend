@@ -9,12 +9,11 @@
    ---------------------------------------------------------------------------
    WHAT IS DELIBERATELY NOT SAVED HERE
    ---------------------------------------------------------------------------
-   THE PHONE NUMBER, THE OTP CHALLENGE AND THE VERIFICATION TOKEN. Those live in
-   `session.js`, in sessionStorage, and die with the tab. A verification that
-   survived a page close would also survive being handed to somebody else.
+   The reviewer's name is not stored in this draft. It stays with the short-lived
+   review session in sessionStorage and dies with the tab.
 
-   The `draftId` IS stored here, because it is an opaque server-side handle and
-   is useless without a verified session to go with it.
+   The `draftId` is stored here because it is the opaque server-side handle used
+   to resume the answers.
 
    ---------------------------------------------------------------------------
    THE RISK THE FOUNDER SHOULD KNOW ABOUT

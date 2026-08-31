@@ -4,21 +4,9 @@ import { getReviewForm, isApiError, submitReview } from "@/api";
 import { clearDraft, loadDraft } from "@/lib/review/draft";
 import { useFormVersion } from "@/lib/review/formVersion";
 import { clearPendingFacility } from "@/lib/review/pendingFacility";
-import { countScoredAnswered, finalizeAnswers, visibleScreens } from "@/lib/review/rules";
+import { finalizeAnswers, visibleScreens } from "@/lib/review/rules";
 import { clearSession, loadSession } from "@/lib/review/session";
 import { ConsentStep } from "./ConsentStep";
-
-/* =========================================================================
-   THE LAST SCREEN — CONSENT, THEN SEND
-   =========================================================================
-   Phone and code MOVED TO THE FRONT (see IdentityFlow) and only consent remains
-   here.
-
-   CONSENT BELONGS AT THE END and did not move with them. It is agreement to the
-   publication of a specific review, and at the start of the flow that review
-   does not exist yet — asking then would be asking somebody to agree to the
-   publication of something they have not written.
-   ========================================================================= */
 
 export function ConsentFlow({ facility }) {
   const navigate = useNavigate();
@@ -34,12 +22,6 @@ export function ConsentFlow({ facility }) {
   const startHref = `/review/${encodeURIComponent(facility.id)}/start`;
   const facilitySource = facility.pending ? "unlisted" : "listed";
 
-  /*
-    NO VERIFIED SESSION, NO CONSENT SCREEN. Arriving here without one means
-    either a deep link or a session that expired mid-review. Either way the
-    submission would be rejected, so send them to confirm their number now rather
-    than after they have read and ticked the consents.
-  */
   useEffect(() => {
     const existing = loadSession(facility.id);
     if (!existing) {
@@ -84,7 +66,7 @@ export function ConsentFlow({ facility }) {
     };
   }, [facility.id, facilitySource, pinnedVersion, session]);
 
-  async function send(consent) {
+  async function send(consent, nameDisplayPreference) {
     if (!session || !config || !answers) return;
     setStage("sending");
     setSubmitError(null);
@@ -99,15 +81,10 @@ export function ConsentFlow({ facility }) {
 
     try {
       await submitReview({
-        facilityId: facility.id,
-        facilitySource,
-        formVersion: config.version,
         draftId: session.draftId,
-        scoredAnswered: countScoredAnswered(config, finalAnswers),
         answers: finalAnswers,
+        nameDisplayPreference,
         consent,
-        verificationToken: session.verificationToken,
-        startedAt: new Date().toISOString(),
       });
 
       // Only after the server has it. Clearing earlier would lose somebody's
@@ -122,8 +99,8 @@ export function ConsentFlow({ facility }) {
       setStage("consent");
       if (isApiError(error) && error.code === "duplicate_review") {
         setSubmitError("You have already reviewed this facility.");
-      } else if (isApiError(error) && error.code === "unverified") {
-        setSubmitError("That took too long. Confirm your number again.");
+      } else if (isApiError(error) && error.code === "review_session_expired") {
+        setSubmitError("This review session expired. Enter your name again to continue.");
       } else if (isApiError(error) && error.isRetryable) {
         setSubmitError("We could not send it. Check your connection and try again.");
       } else {
@@ -154,12 +131,7 @@ export function ConsentFlow({ facility }) {
 
       <p className="mt-3 text-small text-ink-muted">
         Your review of <span className="font-medium text-ink">{facility.name}</span>
-        {session ? (
-          <>
-            {" · confirmed as "}
-            <span className="num">{session.phoneMasked}</span>
-          </>
-        ) : null}
+        {session ? <> · submitted by <span className="font-medium text-ink">{session.reviewerName}</span></> : null}
       </p>
 
       <div className="mt-6">
@@ -169,6 +141,7 @@ export function ConsentFlow({ facility }) {
               formVersion={config.version}
               config={config}
               answers={answers}
+              nameDisplay={config.nameDisplay}
               onConfirmed={send}
             />
             {submitError ? (

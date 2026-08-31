@@ -21,8 +21,7 @@ export default function ThankYouPage() {
       </p>
 
       <p className="mt-3 text-body text-ink-muted">
-        Your name and your number stay private. Neither is ever shown on the site,
-        and neither is given to the facility.
+        Your name will appear according to the option you chose before submitting.
       </p>
 
       <ShareWithFriends />

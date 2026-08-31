@@ -97,8 +97,7 @@ function Control({ question, value, onChange, facility, invalid, describedBy }) 
                 value: option.value,
                 label: option.label,
               })),
-              // A quiet N/A sits with the scale. A prominent one is separated
-              // below it, so an opt-out never reads as the bottom of the ladder.
+
               ...(na && !question.notApplicable?.prominent ? [na] : []),
             ]}
           />
@@ -178,12 +177,7 @@ function Control({ question, value, onChange, facility, invalid, describedBy }) 
       );
 
     default:
-      /*
-        AN HONEST MESSAGE BEATS A BLANK SPACE, and beats a white screen by more.
-        A question kind this build does not know about means the server is ahead
-        of the client. Crashing here would take the whole review with it; this
-        leaves every other question on the screen answerable.
-      */
+
       return (
         <p className="rounded border border-dashed border-line px-4 py-3 text-small text-ink-soft">
           This question cannot be shown in this version. You can carry on without
@@ -193,26 +187,10 @@ function Control({ question, value, onChange, facility, invalid, describedBy }) 
   }
 }
 
-/**
- * A free-text answer, with optional openers above it.
- *
- * A CHIP INSERTS AT THE CURSOR AND HANDS THE FIELD BACK. It is a way in, not a
- * template: the caret lands after the stem so the next thing that happens is the
- * person typing their own words. Tapping a second chip mid-sentence inserts
- * there rather than starting over, because somebody adding a second thought
- * should not lose the first.
- */
 function TextAnswer({ question, value, onChange, invalid, describedBy }) {
   const field = useRef(null);
 
-  /**
-   * Where the caret should land once the inserted text has rendered.
-   *
-   * NOT `requestAnimationFrame`. A hidden or backgrounded document does not run
-   * animation frames at all, so the focus call simply never happens — the text
-   * appears and the keyboard does not, with nothing to explain why. An effect
-   * runs after every commit regardless of whether the page is painting.
-   */
+
   const pendingCaret = useRef(null);
 
   useEffect(() => {
@@ -225,17 +203,13 @@ function TextAnswer({ question, value, onChange, invalid, describedBy }) {
 
   function insert(stem) {
     const el = field.current;
-    // With no cursor to read — the field was never focused — append rather than
-    // overwrite. Landing at position 0 would push existing text along in front
-    // of the stem, which reads as a bug.
+
     const start = el?.selectionStart ?? value.length;
     const end = el?.selectionEnd ?? start;
 
     const before = value.slice(0, start);
     const after = value.slice(end);
-    // Space the stem off from whatever is already there, on either side, but
-    // never double up on whitespace that exists. Inserting at a word boundary is
-    // the common case and it should not leave a visible gap.
+
     const lead = before.length > 0 && !/\s$/.test(before) ? " " : "";
     const trail = /^\s/.test(after) ? "" : " ";
     const snippet = `${lead}${stem}${trail}`;
@@ -243,8 +217,7 @@ function TextAnswer({ question, value, onChange, invalid, describedBy }) {
     const next = (before + snippet + after).slice(0, question.maxLength);
     onChange(next);
 
-    // Applied by the effect above, once the new value has actually rendered:
-    // caret at the end of what was inserted, keyboard handed back.
+
     pendingCaret.current = Math.min((before + snippet).length, question.maxLength);
   }
 
@@ -299,29 +272,16 @@ function TextAnswer({ question, value, onChange, invalid, describedBy }) {
   );
 }
 
-/**
- * Multi-select, optionally collapsed behind a summary.
- *
- * REAL CHECKBOXES, NOT A NATIVE MULTI-SELECT. A `<select multiple>` on Android
- * is a scroll box that requires a long-press to add a second item, and most
- * people never discover it. Checkboxes are obvious and each row is a full tap
- * target.
- *
- * The disclosure is a button plus a region, not `<details>`, so the summary can
- * report the running count and the whole thing stays controlled.
- */
+
 function CheckboxList({ id, options, selected, onChange, collapsible, emptySummary }) {
-  // Opens automatically when something is already picked — coming back to a
-  // collapsed box that says "3 chosen" and having to reopen it to see which
-  // three is a small, avoidable annoyance.
+
   const [open, setOpen] = useState(!collapsible || selected.length > 0);
 
   function toggle(value) {
     const next = selected.includes(value)
       ? selected.filter((entry) => entry !== value)
       : [...selected, value];
-    // An empty array is stored as null, so "asked and skipped" does not read as
-    // "answered with nothing".
+
     onChange(next.length > 0 ? next : null);
   }
 

@@ -1,11 +1,8 @@
-import { authApi } from "@/api/authApi";
 import { contentApi } from "@/api/contentApi";
 import { facilitiesApi } from "@/api/facilitiesApi";
 import { reviewsApi } from "@/api/reviewsApi";
 
 
-export const requestOtp = authApi.requestOtp;
-export const verifyOtp = authApi.verifyOtp;
 export const searchFacilities = facilitiesApi.search;
 export const searchExternalFacilities = facilitiesApi.searchExternal;
 export const getFacility = facilitiesApi.get;

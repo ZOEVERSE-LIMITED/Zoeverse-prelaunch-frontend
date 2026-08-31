@@ -11,7 +11,7 @@ function TargetMissing() {
       <h1 className="text-title">We could not find that facility</h1>
       <p className="mt-3 text-body text-ink-muted">
         The link may be old, or the facility may have been added on a different
-        phone. Search for it again and your review can carry on.
+        browser. Search for it again and your review can carry on.
       </p>
       <Link
         to="/"
@@ -36,8 +36,7 @@ function Stage({ render }) {
 }
 
 export function IdentityPage() {
-  // NEVER the facility name — see useTitle.
-  useTitle("Confirm it is you");
+  useTitle("Your name");
   return (
     <div className="zoe-container py-10">
       <Link

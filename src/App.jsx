@@ -75,9 +75,7 @@ export default function App() {
             {/* Screen 0. The search results link straight here. */}
             <Route path="/review/:facilityId/start" element={<IdentityPage />} />
             <Route path="/review/:facilityId" element={<ReviewPage />} />
-            {/* Consent. The path keeps its old name so links sent mid-review
-                still resolve — see FacilityRoutes. */}
-            <Route path="/review/:facilityId/verify" element={<ConsentPage />} />
+            <Route path="/review/:facilityId/consent" element={<ConsentPage />} />
             {/* `/review` with no facility is somebody who trimmed the URL. */}
             <Route path="/review" element={<Navigate to="/" replace />} />
 

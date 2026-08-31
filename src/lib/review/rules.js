@@ -231,8 +231,8 @@ export function visibleScreens(config, answers) {
       as a page that failed to load, and which the step counter would still
       promise as a step.
 
-      `ownRoute` screens are exempt: verification and consent legitimately hold
-      no questions, because a phone number and a consent tick are not answers.
+      `ownRoute` screens are exempt: identity and consent legitimately hold no
+      review questions because they use their own controls.
     */
     if (screen.ownRoute) return true;
     return screen.questions.some(

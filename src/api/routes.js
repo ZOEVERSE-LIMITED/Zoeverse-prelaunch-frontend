@@ -1,9 +1,5 @@
 
 export const endpoints = {
-  auth: {
-    requestOtp: "/users/send-otp",
-    verifyOtp: "/users/verify-otp",
-  },
   facilities: {
     list: "/facilities",
     externalSearch: "/facilities/external-search",
@@ -20,7 +16,7 @@ export const endpoints = {
   legal: (slug) => `/legal/${encodeURIComponent(slug)}`,
 };
 
-/** Supports both `{ ... }` and `{ data: { ... } }` backend responses. */
+
 export function unwrap(response) {
   const body = response.data;
   return body && typeof body === "object" && "data" in body ? body.data : body;

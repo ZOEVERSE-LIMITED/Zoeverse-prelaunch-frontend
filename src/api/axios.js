@@ -2,10 +2,10 @@ import axios from "axios";
 
 /**
  * Shared HTTP client. Leave VITE_API_URL unset while developing to use Vite's
- * `/api` proxy; set it to the deployed API origin in production.
+ * `/api/v1` proxy; set it to the deployed API base URL in production.
  */
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "/api",
+  baseURL: import.meta.env.VITE_API_URL || "/api/v1",
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });

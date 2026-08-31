@@ -48,8 +48,8 @@ import { Button } from "@/components/ui/Button";
    The rest of the pressure comes off elsewhere:
 
      - IT OPENS WITH REASSURANCE, NOT PAPERWORK. The three things people are
-       actually anxious about — is my name on this, does the hospital see my
-       number, can I undo it — are answered before a single checkbox appears.
+       actually anxious about — how does my name appear, is the review moderated,
+       can I undo it — are answered before a single checkbox appears.
      - ONE DISCLOSURE, NOT ONE PER ROW. The same information, in a form somebody
        might actually open.
      - MISSING THE BOX IS NOT AN ERROR. It is not red and it does not say
@@ -66,7 +66,7 @@ import { Button } from "@/components/ui/Button";
    the substance would make this layout a dark pattern.
    ========================================================================= */
 
-export function ConsentStep({ formVersion, config, answers, onConfirmed }) {
+export function ConsentStep({ formVersion, config, answers, nameDisplay, onConfirmed }) {
   const [notice, setNotice] = useState(null);
   const [failed, setFailed] = useState(false);
   /** The single tick covering every required statement. Starts false. */
@@ -74,6 +74,7 @@ export function ConsentStep({ formVersion, config, answers, onConfirmed }) {
   /** Per-item, for the optional ones only. */
   const [optionalTicked, setOptionalTicked] = useState({});
   const [attempted, setAttempted] = useState(false);
+  const [nameDisplayPreference, setNameDisplayPreference] = useState("");
 
   useEffect(() => {
     let live = true;
@@ -135,13 +136,20 @@ export function ConsentStep({ formVersion, config, answers, onConfirmed }) {
   const items = visibleConsentItems(notice.items ?? [], answers, config);
   const required = items.filter((item) => item.required);
   const optional = items.filter((item) => !item.required);
-  const ready = acceptedAll;
+  const ready = acceptedAll && !!nameDisplayPreference;
   const optionalChosen = optional.filter((item) => optionalTicked[item.id]).length;
 
   function confirm() {
     setAttempted(true);
 
-    if (!ready) {
+    if (!nameDisplayPreference) {
+      const choice = document.querySelector('input[name="name-display"]');
+      choice?.focus();
+      choice?.scrollIntoView({ block: "center", behavior: "smooth" });
+      return;
+    }
+
+    if (!acceptedAll) {
       const box = document.getElementById("consent-accept-all");
       box?.focus();
       box?.scrollIntoView({ block: "center", behavior: "smooth" });
@@ -160,6 +168,7 @@ export function ConsentStep({ formVersion, config, answers, onConfirmed }) {
         notice.version,
         new Date().toISOString(),
       ),
+      nameDisplayPreference,
     );
   }
 
@@ -178,8 +187,8 @@ export function ConsentStep({ formVersion, config, answers, onConfirmed }) {
           while deciding whether to trust you. */}
       <ul className="mt-6 space-y-2 rounded bg-teal-wash px-4 py-4">
         {[
-          "Your name is never shown on the site.",
-          "Your number is never given to the facility.",
+          "You choose how your name appears publicly.",
+          "Your review is checked before it is published.",
           "You can have it taken down whenever you like.",
         ].map((line) => (
           <li key={line} className="flex items-start gap-2.5 text-small text-ink">
@@ -190,6 +199,33 @@ export function ConsentStep({ formVersion, config, answers, onConfirmed }) {
           </li>
         ))}
       </ul>
+
+      <fieldset className="mt-8">
+        <legend className="text-heading">{nameDisplay?.question ?? "How should your name appear?"}</legend>
+        <div className="mt-3 space-y-2">
+          {(nameDisplay?.options ?? []).map((option) => (
+            <label
+              key={option.value}
+              className={`zoe-focus-row flex min-h-tap cursor-pointer items-center gap-3 rounded border px-4 py-3 ${
+                nameDisplayPreference === option.value
+                  ? "border-teal-ink bg-teal-wash"
+                  : "border-line bg-surface"
+              }`}
+            >
+              <input
+                type="radio"
+                name="name-display"
+                value={option.value}
+                checked={nameDisplayPreference === option.value}
+                onChange={(event) => setNameDisplayPreference(event.target.value)}
+                aria-invalid={(attempted && !nameDisplayPreference) || undefined}
+                className="h-5 w-5 shrink-0 accent-teal-ink"
+              />
+              <span className="text-body text-ink">{option.label}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
 
       {/* -------------------------------------------------------- required */}
       <div className="mt-8">
@@ -280,7 +316,7 @@ export function ConsentStep({ formVersion, config, answers, onConfirmed }) {
       {/* -------------------------------------------------------- optional */}
       {optional.length > 0 ? (
         <div className="mt-8">
-          <h2 className="text-heading">Want a text from us?</h2>
+          <h2 className="text-heading">Optional permissions</h2>
           <p className="mt-1 text-small text-ink-soft">
             {optionalChosen > 0
               ? "Thank you — you can untick either one."
@@ -313,7 +349,9 @@ export function ConsentStep({ formVersion, config, answers, onConfirmed }) {
           role="alert"
           className="mt-6 rounded border border-teal-ink bg-teal-wash px-4 py-3 text-small text-ink"
         >
-          Tick the box above to send your review.
+          {!nameDisplayPreference
+            ? "Choose how your name should appear."
+            : "Tick the consent box above to send your review."}
         </p>
       ) : null}
 

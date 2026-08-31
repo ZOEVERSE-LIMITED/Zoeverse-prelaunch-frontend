@@ -14,23 +14,10 @@ export default function LandingPage() {
         what to expect.
       </p>
 
-      {/*
-        THE ANONYMITY PROMISE, GIVEN ITS OWN BLOCK.
-
-        It sits between the invitation and the search box because that is the
-        moment the question occurs to somebody — "will my name be on this?" — and
-        an answer buried in a paragraph reads as small print. A tinted panel makes
-        it a statement rather than a caveat.
-
-        The wording is a promise the rest of the build already keeps: the phone
-        number is never persisted, never rendered unmasked, and never sent to a
-        facility. If any of that changes, this block is the first thing to fix.
-      */}
       <div className="mt-6 rounded border border-teal-wash bg-teal-wash px-4 py-4">
-        <p className="text-body font-medium text-ink">Anonymous, always.</p>
+        <p className="text-body font-medium text-ink">You control how your name appears.</p>
         <p className="mt-1 text-small text-ink-muted">
-          Your name and number are never shown — not publicly, and not to the
-          hospital.
+          Choose your full name, first name with last initial, or Anonymous before you submit.
         </p>
       </div>
 

@@ -8,19 +8,7 @@ import { clearSession, loadSession } from "@/lib/review/session";
 import { Button } from "@/components/ui/Button";
 import { QuestionField } from "./QuestionField";
 
-/**
- * Where the facility came from, seeded as an answer so the CONFIG can branch on
- * it rather than a component.
- *
- * A facility somebody typed in themselves cannot be confirmed by them, so the
- * config drops that question with an ordinary `showWhen`. Expressing it as a
- * seeded answer keeps the rule declarative and keeps this file free of "if
- * pending, skip the confirmation".
- *
- * IT IS ALSO SENT WITH THE SUBMISSION. Without it the server cannot tell a
- * legitimately skipped confirmation from a client that bypassed a required
- * question.
- */
+
 function seedSource(facility) {
   return { facilitySource: facility.pending ? "unlisted" : "listed" };
 }
@@ -42,12 +30,7 @@ export function ReviewFlow({ facility }) {
 
   const startHref = `/review/${encodeURIComponent(facility.id)}/start`;
 
-  /*
-    VERIFICATION IS THE GATE, and it is checked before anything is loaded.
-    Screen 0 is the phone number, so arriving here without a verified session
-    means somebody deep-linked past it — send them to the front rather than
-    letting them answer five screens they cannot submit.
-  */
+  // A named review session must exist before answers can be saved.
   useEffect(() => {
     const existing = loadSession(facility.id);
     if (!existing) {
@@ -68,7 +51,7 @@ export function ReviewFlow({ facility }) {
         setConfig(result);
 
         // A draft is OFFERED, never silently restored. Somebody returning to a
-        // shared phone should be told what is about to reappear on screen before
+        // shared device should be told what is about to reappear on screen before
         // it does — and given a way to say no.
         const draft = loadDraft(facility.id, result.version);
         if (draft) setOfferedDraft(draft);
@@ -224,7 +207,7 @@ export function ReviewFlow({ facility }) {
       // consent returns them to the last thing they answered rather than to a
       // screen that does not exist yet.
       persist(answers, current.id);
-      navigate(`/review/${encodeURIComponent(facility.id)}/verify`);
+      navigate(`/review/${encodeURIComponent(facility.id)}/consent`);
       return;
     }
 
@@ -245,8 +228,8 @@ export function ReviewFlow({ facility }) {
         A pinned version is a preview, and it says so.
 
         IT ALSO SAYS WHAT THE PREVIEW DOES NOT COVER. The screens are laid out by
-        the CURRENT routing whichever question set is loaded — verification
-        first, consent last — because that routing lives in these components, not
+        the CURRENT routing whichever question set is loaded — identity first,
+        consent last — because that routing lives in these components, not
         in the config. So pinning an older version shows its wording and its
         options inside today's screen order, which is genuinely useful for
         comparing questions and actively misleading if read as "this is what the
@@ -348,7 +331,7 @@ function ResumePrompt({ draft, facilityName, onResume, onDiscard }) {
 
       {/*
         No answers are shown here, only the count. Somebody else may be holding
-        this phone, and the content of a half-finished health review is not
+        this device, and the content of a half-finished health review is not
         something to put on screen before its author has said it is them.
       */}
       <div className="mt-8 flex flex-col gap-3">
