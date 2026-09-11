@@ -1,5 +1,6 @@
 @import "./tokens.css";
 @import "./fonts.css";
+@import "./brand.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -45,7 +46,7 @@
 
 @layer utilities {
   .bg-cream{
-    background-color: 250 248 244;
+    background-color: rgb(var(--zoe-cream));
   }
   .zoe-container {
     @apply mx-auto w-full max-w-measure px-gutter;

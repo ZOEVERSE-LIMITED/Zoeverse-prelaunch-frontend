@@ -13,7 +13,9 @@ export default function ThankYouPage() {
 
   return (
     <div className="zoe-container py-12">
-      <h1 className="text-display">Thank you</h1>
+      <div className="success-seal" aria-hidden="true">✓</div>
+      <p className="eyebrow mb-3">A VOICE THAT MAKES A DIFFERENCE</p>
+      <h1 className="text-display">You’ve helped the next person.</h1>
 
       <p className="mt-4 text-body text-ink-muted">
         Your experience has been sent. Somebody at ZOEVERSE checks every review

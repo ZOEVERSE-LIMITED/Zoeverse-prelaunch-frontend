@@ -2,6 +2,7 @@ import { Component, useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { JourneyProgress } from "@/components/layout/JourneyProgress";
 import LandingPage from "@/pages/LandingPage";
 import { ConsentPage, IdentityPage, ReviewPage } from "@/pages/FacilityRoutes";
 import SuggestFacilityPage from "@/pages/SuggestFacilityPage";
@@ -67,7 +68,8 @@ export default function App() {
 
       <SiteHeader />
 
-      <main id="main" className="flex-1">
+      <main id="main" className={`flex-1 ${pathname === '/' ? 'home-main' : 'flow-main'}`}>
+        <JourneyProgress />
         <ErrorBoundary key={pathname}>
           <Routes>
             <Route path="/" element={<LandingPage />} />

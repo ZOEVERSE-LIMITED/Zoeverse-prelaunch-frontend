@@ -1,14 +1,14 @@
 
 
 :root {
-  --zoe-teal: 2 128 144;
-  --zoe-teal-ink: 2 90 101;
-  --zoe-teal-deep: 1 68 76;
-  --zoe-teal-wash: 230 241 242;
+  --zoe-teal: 29 104 91;
+  --zoe-teal-ink: 21 75 65;
+  --zoe-teal-deep: 18 57 50;
+  --zoe-teal-wash: 233 241 231;
   --zoe-ink: 13 27 42;
   --zoe-ink-muted: 74 90 106;
   --zoe-ink-soft: 94 110 124;
-  --zoe-cream: 250 248 244;
+  --zoe-cream: 250 248 241;
   --zoe-surface: 255 255 255;
   --zoe-line: 231 226 218;
   --zoe-danger: 179 38 30;
@@ -17,7 +17,7 @@
   --zoe-success-wash: 232 243 236;
   --zoe-whatsapp: 37 211 102;
   --zoe-gutter: 1.25rem;
-  --zoe-measure: 34rem;
+  --zoe-measure: 42rem;
   
   /* Corner radii. */
   --zoe-radius-sm: 0.375rem;

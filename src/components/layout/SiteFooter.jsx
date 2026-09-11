@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-auto border-t border-line bg-cream">
-      <div className="zoe-container py-8">
+    <footer className="site-footer">
+      <div className="wide-container py-8">
+        <p className="footer-wordmark">zoeverse<span>Real experiences. Better choices.</span></p>
        
         <p className="max-w-measure text-small text-ink-muted">
-          ZOEVERSE opens later this year. We&apos;re collecting experiences now so
-          it launches with real ones — not an empty page.
+          We’re collecting patient experiences ahead of the Zoeverse launch.
+          Thank you for helping us start with voices that matter.
         </p>
 
         <nav className="mt-4 flex flex-wrap items-center gap-x-6" aria-label="Legal">
