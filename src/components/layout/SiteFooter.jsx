@@ -1,11 +1,14 @@
 import { Link } from "react-router-dom";
+import { LogoType } from "../../../assets";
 
 
 export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="wide-container py-8">
-        <p className="footer-wordmark">zoeverse<span>Real experiences. Better choices.</span></p>
+        <p className="footer-wordmark">
+          <img className="w-[100px] h-[60px]" src={LogoType} />
+          <span>Real experiences. Better choices.</span></p>
        
         <p className="max-w-measure text-small text-ink-muted">
           We’re collecting patient experiences ahead of the Zoeverse launch.
