@@ -41,7 +41,7 @@ export function FacilitySearch() {
   const inputId = useId();
   const hintId = useId();
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(() => (new URLSearchParams(window.location.search).get("q") || "").slice(0, 200));
   const [results, setResults] = useState([]);
   const [total, setTotal] = useState(0);
   const [status, setStatus] = useState("idle"); // idle | searching | done | error
