@@ -8,7 +8,7 @@ export default function LandingPage() {
     <section className="home-hero wide-container">
       <div className="hero-copy">
         <p className="eyebrow"><span className="status-dot" /> PATIENT VOICES · LAGOS</p>
-        <h1>Your experience.<br />Someone else’s<br /><em>better care.</em></h1>
+        <h1>Your truth<br />Keeps the next<br /><em>person alive</em></h1>
         <p className="hero-intro">Been to a hospital or clinic in Lagos? Share what the care was really like. Help the next person know what to expect.</p>
         <a className="hero-cta" href="#find-facility">Share my experience <span aria-hidden="true">↗</span></a>
         <p className="hero-reassurance"><span aria-hidden="true">✓</span> Choose to appear anonymously before you submit.</p>
