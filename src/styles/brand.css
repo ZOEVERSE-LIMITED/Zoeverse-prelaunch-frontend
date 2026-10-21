@@ -36,6 +36,36 @@ html { scroll-behavior:smooth; scroll-padding-top:24px; }
 .search-panel { align-self:center; padding:10px 0; }
 .search-panel input[type=search] { min-height:62px; background:#fafbf6; border-color:#b8c8b7; border-radius:12px; padding-inline:18px; }
 .search-panel label { font-size:15px; font-weight:700; }
+.search-panel input[type=search],
+.flow-main form input.facility-attention-input:not([aria-invalid=true]) {
+ border:2px solid rgb(var(--zoe-teal) / .62);
+ box-shadow:var(--zoe-field-glow);
+ transition:border-color .2s ease,box-shadow .2s ease;
+}
+.search-panel input[type=search]:focus,
+.flow-main form input.facility-attention-input:not([aria-invalid=true]):focus {
+ border-color:rgb(var(--zoe-teal));
+ box-shadow:var(--zoe-field-glow-focus);
+ outline:2px solid rgb(var(--zoe-teal-ink));
+ outline-offset:3px;
+}
+.facility-suggestion-card {
+ display:flex; align-items:center; gap:14px; min-height:96px; padding:18px;
+ border:1px solid rgb(var(--zoe-teal) / .28); border-radius:14px;
+ background:rgb(var(--zoe-teal-wash)); color:rgb(var(--zoe-teal-deep));
+ box-shadow:0 4px 14px rgb(var(--zoe-teal) / .06);
+ transition:border-color .2s ease,box-shadow .2s ease;
+}
+.facility-suggestion-card:hover { border-color:rgb(var(--zoe-teal)); box-shadow:var(--zoe-field-glow); }
+.facility-suggestion-icon { display:grid; place-items:center; flex:0 0 44px; height:44px; border-radius:50%; background:rgb(var(--zoe-teal) / .1); }
+.facility-suggestion-icon svg { width:26px; height:26px; }
+.facility-suggestion-copy { flex:1; min-width:0; }
+.facility-suggestion-copy strong { display:block; font-family:'Literata',serif; font-size:22px; font-weight:700; line-height:1.25; }
+.facility-suggestion-copy > span { display:block; margin-top:5px; font-size:16px; line-height:1.45; color:rgb(var(--zoe-ink-muted)); }
+.facility-suggestion-arrow { flex:0 0 20px; width:20px; height:20px; }
+@media (prefers-reduced-motion:reduce) {
+ .search-panel input[type=search],.flow-main input.facility-attention-input,.facility-suggestion-card { transition:none; }
+}
 .how-section { padding-block:88px; }
 .section-heading { text-align:center; }
 .section-heading .eyebrow { justify-content:center; }

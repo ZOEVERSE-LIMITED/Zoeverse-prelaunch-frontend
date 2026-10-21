@@ -205,12 +205,20 @@ export function FacilitySearch() {
           ) : null}
         </div>
       ) : (
-        <p className="mt-6 text-small text-ink-muted">
-          Can&apos;t find it?{" "}
-          <Link to="/facility/suggest" className="text-teal-ink underline underline-offset-4">
-            Add a facility
-          </Link>
-        </p>
+        <Link to={suggestHref} className="facility-suggestion-card mt-6">
+          <span className="facility-suggestion-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M8 21V3h8v18M8 8H4v13h16V8h-4M10 7h4M12 5v4M11 21v-4h2v4M6 12v1m0 3v1m12-5v1m0 3v1M11 12h2" />
+            </svg>
+          </span>
+          <span className="facility-suggestion-copy">
+            <strong>Can’t find your facility?</strong>
+            <span>Add the hospital or clinic and start your review.</span>
+          </span>
+          <svg className="facility-suggestion-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m9 5 7 7-7 7" />
+          </svg>
+        </Link>
       )}
     </div>
   );

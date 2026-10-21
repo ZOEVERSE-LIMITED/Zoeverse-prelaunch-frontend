@@ -27,4 +27,6 @@
   /* Elevation. Soft and warm, never a hard grey drop shadow. */
   --zoe-shadow-card: 0 1px 2px rgb(13 27 42 / 0.04), 0 8px 24px rgb(13 27 42 / 0.06);
   --zoe-shadow-raised: 0 2px 4px rgb(13 27 42 / 0.06), 0 12px 32px rgb(13 27 42 / 0.1);
+  --zoe-field-glow: 0 0 0 2px rgb(var(--zoe-teal) / 0.09), 0 0 18px rgb(var(--zoe-teal) / 0.12);
+  --zoe-field-glow-focus: 0 0 0 3px rgb(var(--zoe-teal) / 0.15), 0 0 22px rgb(var(--zoe-teal) / 0.19);
 }

@@ -84,6 +84,7 @@ export function SuggestFacilityForm() {
       >
         <TextInput
           id="name"
+          className="facility-attention-input"
           value={name}
           onChange={(e) => setName(e.target.value)}
           invalid={!!errors.name}
@@ -108,6 +109,7 @@ export function SuggestFacilityForm() {
       >
         <TextInput
           id="area"
+          className="facility-attention-input"
           value={area}
           onChange={(e) => setArea(e.target.value)}
           invalid={!!errors.area}
