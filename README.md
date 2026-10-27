@@ -123,3 +123,8 @@ specific review, and at the start of the flow that review does not exist yet.
 - **Two contact details**, currently rendered as visible placeholders: the
   withdrawal contact on the consent screen, and the support contact on the
   "you have already reviewed this one" screen.
+
+
+## Development API connection
+
+`.env.development` supplies `VITE_DEV_API` for Vite's `/api` proxy, so local facility lookup can reach the existing reviews backend. `vite.config.js` loads this file for development. Override it in `.env.development.local` to use a local backend (for example `VITE_DEV_API=http://127.0.0.1:8000`), leaving `VITE_API_URL` empty. The default connects to the live backend; submitted reviews are real, so use a local backend for write-flow testing. Production configuration remains in `.env.production`.

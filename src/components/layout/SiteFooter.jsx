@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { LogoType } from "../../../assets";
+import { LogoLockup } from "./LogoLockup";
 
 
 export function SiteFooter() {
@@ -7,7 +7,7 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="wide-container py-8">
         <p className="footer-wordmark">
-          <img className="w-[100px] h-[60px]" src={LogoType} />
+          <LogoLockup />
           <span>Real experiences. Better choices.</span></p>
        
         <p className="max-w-measure text-small text-ink-muted">

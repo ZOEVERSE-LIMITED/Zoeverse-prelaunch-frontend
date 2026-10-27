@@ -1,16 +1,16 @@
 
 
 :root {
-  --zoe-teal: 29 104 91;
-  --zoe-teal-ink: 21 75 65;
-  --zoe-teal-deep: 18 57 50;
-  --zoe-teal-wash: 233 241 231;
-  --zoe-ink: 13 27 42;
-  --zoe-ink-muted: 74 90 106;
-  --zoe-ink-soft: 94 110 124;
-  --zoe-cream: 250 248 241;
+  --zoe-teal: 6 75 219;
+  --zoe-teal-ink: 6 57 176;
+  --zoe-teal-deep: 7 30 77;
+  --zoe-teal-wash: 237 243 255;
+  --zoe-ink: 16 28 50;
+  --zoe-ink-muted: 82 98 123;
+  --zoe-ink-soft: 96 112 137;
+  --zoe-cream: 247 249 252;
   --zoe-surface: 255 255 255;
-  --zoe-line: 231 226 218;
+  --zoe-line: 225 232 242;
   --zoe-danger: 179 38 30;
   --zoe-danger-wash: 253 236 234;
   --zoe-success: 20 102 63;
@@ -25,8 +25,8 @@
   --zoe-radius-lg: 1rem;
 
   /* Elevation. Soft and warm, never a hard grey drop shadow. */
-  --zoe-shadow-card: 0 1px 2px rgb(13 27 42 / 0.04), 0 8px 24px rgb(13 27 42 / 0.06);
-  --zoe-shadow-raised: 0 2px 4px rgb(13 27 42 / 0.06), 0 12px 32px rgb(13 27 42 / 0.1);
+  --zoe-shadow-card: 0 1px 2px rgb(16 28 50 / 0.04), 0 8px 24px rgb(16 28 50 / 0.06);
+  --zoe-shadow-raised: 0 2px 4px rgb(16 28 50 / 0.06), 0 12px 32px rgb(16 28 50 / 0.1);
   --zoe-field-glow: 0 0 0 2px rgb(var(--zoe-teal) / 0.09), 0 0 18px rgb(var(--zoe-teal) / 0.12);
   --zoe-field-glow-focus: 0 0 0 3px rgb(var(--zoe-teal) / 0.15), 0 0 22px rgb(var(--zoe-teal) / 0.19);
 }

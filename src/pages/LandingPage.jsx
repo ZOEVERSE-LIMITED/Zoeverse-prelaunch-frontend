@@ -1,20 +1,25 @@
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { capturePatientJourney, patientReturnUrl } from "@/lib/patientJourney";
 import { FacilitySearch } from "@/components/search/FacilitySearch";
 import { useTitle } from "@/lib/useTitle";
 
 export default function LandingPage() {
   useTitle("Share your experience");
+  const [params] = useSearchParams();
+  useEffect(() => { capturePatientJourney(params.toString()); }, [params]);
 
   return <>
-    <section className="home-hero wide-container">
-      <div className="hero-copy">
-        <p className="eyebrow"><span className="status-dot" /> PATIENT VOICES · LAGOS</p>
-        <h1>Your truth<br />Keeps the next<br /><em>person alive</em></h1>
-        <p className="hero-intro">Been to a hospital or clinic in Lagos? Share what the care was really like. Help the next person know what to expect.</p>
+    <section className="review-cinema-hero">
+      <div className="home-hero wide-container"><div className="hero-copy">
+        <p className="eyebrow">REAL PEOPLE. REAL PERSPECTIVE.</p>
+        <h1>Your experience.<br /><span>A clearer choice.</span></h1>
+        <p className="hero-intro">The things you noticed can help the next person know what to expect. Share your hospital or clinic experience, in your own words.</p>
         <a className="hero-cta" href="#find-facility">Share my experience <span aria-hidden="true">↗</span></a>
-        <p className="hero-reassurance"><span aria-hidden="true">✓</span> Choose to appear anonymously before you submit.</p>
-      </div>
-      <CareIllustration />
+        <p className="hero-reassurance">You choose how your name appears before sending.</p>
+      </div></div>
     </section>
+    {params.get('returnTo') && <div className="portal-handoff wide-container"><div><strong>You’re in the right place.</strong><p>Confirm the facility below to continue from the patient portal.</p></div><a href={patientReturnUrl()}>Back to finding care ↗</a></div>}
     <section id="find-facility" className="search-section wide-container" aria-labelledby="search-heading">
       <div className="search-intro"><p className="eyebrow">LET’S START WITH YOUR VISIT</p><h2 id="search-heading">Where did you <br />receive care?</h2><p>Find the hospital or clinic you visited, then select it to start your review.</p><span className="search-arrow" aria-hidden="true">↳</span></div>
       <div className="search-panel"><FacilitySearch /></div>
@@ -35,11 +40,4 @@ export default function LandingPage() {
       ["What if my hospital isn’t listed?", "Use the option below the search to suggest a facility and continue through the guided process."],
     ].map(([q, a]) => <details key={q}><summary>{q}<span aria-hidden="true">+</span></summary><p>{a}</p></details>)}</div></section>
   </>;
-}
-
-function CareIllustration() {
-  return <div className="care-scene" aria-hidden="true"><div className="scene-orbit" /><span className="scene-caption">CARE CONNECTS US.</span>
-    <svg viewBox="0 0 460 360" className="care-building" fill="none"><path d="M40 300H420" stroke="#bfd4c7" strokeWidth="2" /><path d="M105 300V146L230 80L355 146V300" fill="#f9f6eb" /><path d="M230 80L355 146V300H230V80Z" fill="#e1e9df" /><path d="M90 146L230 69L370 146" stroke="#153f3b" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" /><rect x="188" y="210" width="84" height="90" rx="42" fill="#153f3b" /><path d="M230 224V300" stroke="#90b7a3" strokeWidth="2" /><path d="M217 133H243M230 120V146" stroke="#d97051" strokeWidth="12" strokeLinecap="round" />{[130,292].map(x => <g key={x}><rect x={x} y="178" width="36" height="45" rx="8" fill="#aacabc" /><path d={`M${x+18} 178V223M${x} 200H${x+36}`} stroke="#f9f6eb" strokeWidth="3" /></g>)}<path d="M66 299V238M393 299V225" stroke="#153f3b" strokeWidth="5" /><ellipse cx="66" cy="218" rx="24" ry="39" fill="#779e81" /><ellipse cx="393" cy="207" rx="26" ry="44" fill="#779e81" /><path d="M207 300L176 350H294L252 300" fill="#e9cdb8" /><circle cx="126" cy="269" r="12" fill="#d97051" /><path d="M107 300C107 277 145 277 145 300" fill="#d97051" /><circle cx="328" cy="269" r="12" fill="#153f3b" /><path d="M309 300C309 277 347 277 347 300" fill="#153f3b" /></svg>
-    <div className="scene-note note-one"><span>♡</span> Better care starts<br />with being heard.</div><div className="scene-note note-two"><i /> Your experience matters.</div><div className="scene-stamp">REAL VOICES.<br /><strong>Better choices.</strong></div>
-  </div>;
 }

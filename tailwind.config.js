@@ -22,7 +22,7 @@ export default {
       },
       fontFamily: {
         sans: ["DM Sans", "sans-serif"],
-        display: ["Literata", "serif"],
+        display: ["DM Sans", "sans-serif"],
         mono: ["DM Mono", "monospace"],
       },
       fontSize: {

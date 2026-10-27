@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { bindPatientJourney } from "@/lib/patientJourney";
 import { Link, useParams } from "react-router-dom";
 import { IdentityFlow } from "@/components/verify/IdentityFlow";
 import { ReviewFlow } from "@/components/review/ReviewFlow";
@@ -27,6 +29,7 @@ function TargetMissing() {
 function Stage({ render }) {
   const { facilityId } = useParams();
   const target = useReviewTarget(decodeURIComponent(facilityId ?? ""));
+  useEffect(() => { if (target.status === "ready") bindPatientJourney(target.facility); }, [target]);
 
   if (target.status === "loading") {
     return <p className="text-body text-ink-soft">Loading…</p>;

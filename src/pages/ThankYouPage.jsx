@@ -1,3 +1,4 @@
+import { patientReturnUrl } from "@/lib/patientJourney";
 import { Link } from "react-router-dom";
 import { ShareWithFriends } from "@/components/thankyou/ShareWithFriends";
 import { useTitle } from "@/lib/useTitle";
@@ -12,7 +13,7 @@ export default function ThankYouPage() {
   useTitle("Thank you");
 
   return (
-    <div className="zoe-container py-12">
+    <div className="zoe-container thank-you-card py-12">
       <div className="success-seal" aria-hidden="true">✓</div>
       <p className="eyebrow mb-3">A VOICE THAT MAKES A DIFFERENCE</p>
       <h1 className="text-display">You’ve helped the next person.</h1>
@@ -26,6 +27,7 @@ export default function ThankYouPage() {
         Your name will appear according to the option you chose before submitting.
       </p>
 
+      <a className="patient-return-action" href={patientReturnUrl()}>{new URL(patientReturnUrl()).pathname === "/search" ? "Back to finding care" : "Back to the facility profile"} <span aria-hidden="true">↗</span></a>
       <ShareWithFriends />
 
       <div className="mt-6 rounded border border-line bg-surface px-4 py-5">

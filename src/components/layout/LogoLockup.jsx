@@ -1,10 +1,4 @@
-import { Logo, LogoType } from "../../../assets";
-
-
+import logo from "@/assets/zoeverse-logo.svg?inline";
 export function LogoLockup({ className = "" }) {
-  return (
-    <span className={`inline-flex items-baseline gap-2 ${className}`}>
-      <img className="w-[100px]" src={LogoType} />
-    </span>
-  );
+  return <span className={`review-logo ${className}`}><img src={logo} alt="" /><span>Zoeverse</span></span>;
 }

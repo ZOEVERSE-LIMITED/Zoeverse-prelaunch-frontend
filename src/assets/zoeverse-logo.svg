@@ -1,0 +1,27 @@
+<svg viewBox="0 0 240 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ZOEVERSE lotus mark">
+  <!--
+    ZOEVERSE lotus/bloom mark (CLAUDE.md Section 7): five overlapping petals —
+    red (outer base), blue, teal, yellow, green (centre) — layered into a bloom.
+    Vector reproduction of the founder's supplied logo; translucent petals blend
+    where they overlap.
+  -->
+  <defs>
+    <path id="zoe-petal" d="M0 0 C30 -34 22 -96 0 -100 C-22 -96 -30 -34 0 0 Z" />
+  </defs>
+  <g transform="translate(120 116)">
+    <!-- Red base petals (outer, back) — broad, near-horizontal -->
+    <use href="#zoe-petal" fill="#E8463C" opacity="0.9" transform="rotate(-98) scale(1.28 1.12)" />
+    <use href="#zoe-petal" fill="#E8463C" opacity="0.9" transform="rotate(98) scale(1.28 1.12)" />
+    <!-- Blue petals -->
+    <use href="#zoe-petal" fill="#38ABDE" opacity="0.86" transform="rotate(-60) scale(1.02 0.94)" />
+    <use href="#zoe-petal" fill="#38ABDE" opacity="0.86" transform="rotate(60) scale(1.02 0.94)" />
+    <!-- Teal petals -->
+    <use href="#zoe-petal" fill="#15B7A6" opacity="0.86" transform="rotate(-40) scale(0.98 0.96)" />
+    <use href="#zoe-petal" fill="#15B7A6" opacity="0.86" transform="rotate(40) scale(0.98 0.96)" />
+    <!-- Yellow petals -->
+    <use href="#zoe-petal" fill="#F5C21B" opacity="0.9" transform="rotate(-21) scale(1.0 0.99)" />
+    <use href="#zoe-petal" fill="#F5C21B" opacity="0.9" transform="rotate(21) scale(1.0 0.99)" />
+    <!-- Green centre petal (front) -->
+    <use href="#zoe-petal" fill="#47AE3A" opacity="0.95" />
+  </g>
+</svg>
