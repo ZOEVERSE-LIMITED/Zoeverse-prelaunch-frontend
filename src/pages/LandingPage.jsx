@@ -1,23 +1,59 @@
-import { useEffect } from "react";
+import checkup from "@/assets/hero-checkup.webp";
+import checkupThumb from "@/assets/hero-checkup-thumb.webp";
+import support from "@/assets/hero-support.webp";
+import supportThumb from "@/assets/hero-support-thumb.webp";
+import family from "@/assets/hero-family.webp";
+import familyThumb from "@/assets/hero-family-thumb.webp";
+import story from "@/assets/hero-story.webp";
+import storyThumb from "@/assets/hero-story-thumb.webp";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { capturePatientJourney, patientReturnUrl } from "@/lib/patientJourney";
 import { FacilitySearch } from "@/components/search/FacilitySearch";
 import { useTitle } from "@/lib/useTitle";
+
+const photos = [
+  { image: checkup, thumbnail: checkupThumb, label: "Patient voices", alt: "A clinician checks a patient’s blood pressure" },
+  { image: support, thumbnail: supportThumb, label: "Small gestures", alt: "Hands held in support" },
+  { image: family, thumbnail: familyThumb, label: "Care for families", alt: "A family during a checkup" },
+  { image: story, thumbnail: storyThumb, label: "Your story", alt: "A woman smiles at her phone" },
+];
 
 export default function LandingPage() {
   useTitle("Share your experience");
   const [params] = useSearchParams();
   useEffect(() => { capturePatientJourney(params.toString()); }, [params]);
 
+  const [slide, setSlide] = useState({ index: 0 });
+  useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const timer = window.setInterval(() => {
+      if (!document.hidden && !reducedMotion.matches) {
+        setSlide(({ index }) => ({ index: (index + 1) % photos.length }));
+      }
+    }, 6000);
+    return () => window.clearInterval(timer);
+  }, [slide]);
+  const photo = photos[slide.index];
+
   return <>
-    <section className="review-cinema-hero">
+    <section className="review-cinema-hero" aria-labelledby="review-hero-title">
+      <img className="review-hero-photo" src={photo.image} alt={photo.alt} fetchPriority="high" />
       <div className="home-hero wide-container"><div className="hero-copy">
         <p className="eyebrow">REAL PEOPLE. REAL PERSPECTIVE.</p>
-        <h1>Your experience.<br /><span>A clearer choice.</span></h1>
+        <h1 id="review-hero-title">Your experience.<br /><span>A clearer choice.</span></h1>
         <p className="hero-intro">The things you noticed can help the next person know what to expect. Share your hospital or clinic experience, in your own words.</p>
         <a className="hero-cta" href="#find-facility">Share my experience <span aria-hidden="true">↗</span></a>
         <p className="hero-reassurance">You choose how your name appears before sending.</p>
       </div></div>
+      <div className="wide-container review-hero-choices" role="group" aria-label="Choose a banner photo">
+        {photos.map(({ thumbnail, label }, index) => (
+          <button key={label} type="button" aria-pressed={slide.index === index} onClick={() => setSlide({ index })}>
+            <img src={thumbnail} alt="" />
+            <span>{label}</span>
+          </button>
+        ))}
+      </div>
     </section>
     {params.get('returnTo') && <div className="portal-handoff wide-container"><div><strong>You’re in the right place.</strong><p>Confirm the facility below to continue from the patient portal.</p></div><a href={patientReturnUrl()}>Back to finding care ↗</a></div>}
     <section id="find-facility" className="search-section wide-container" aria-labelledby="search-heading">
