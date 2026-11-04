@@ -42,18 +42,17 @@ body {
   white-space: nowrap;
 }
 
-.review-logo img {
+.review-logo .review-brand-mark {
   height: 34px;
-  width: 43px;
+  width: 34px;
+  border-radius: 6px;
   object-fit: contain;
 }
 
-.review-logo>span {
-  font-family: 'DM Sans',sans-serif;
-  font-size: 27px;
-  font-weight: 700;
-  letter-spacing: -.06em;
-  line-height: 1;
+.review-logo .review-brand-name {
+  width: clamp(82px, 15vw, 104px);
+  height: auto;
+  border-radius: 4px;
 }
 
 .brand-descriptor {
@@ -722,12 +721,9 @@ body {
   .review-logo {
     gap: 7px;
   }
-  .review-logo img {
-    width: 36px;
+  .review-logo .review-brand-mark {
+    width: 29px;
     height: 29px;
-  }
-  .review-logo>span {
-    font-size: 24px;
   }
   .site-header nav {
     gap: 12px;
@@ -908,11 +904,8 @@ body {
   .header-find {
     display: none;
   }
-  .review-logo>span {
-    font-size: 22px;
-  }
-  .review-logo img {
-    width: 32px;
+  .review-logo .review-brand-mark {
+    width: 27px;
     height: 27px;
   }
   .home-hero {
