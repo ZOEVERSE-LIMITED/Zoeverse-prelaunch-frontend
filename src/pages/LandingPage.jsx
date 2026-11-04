@@ -13,10 +13,18 @@ import { FacilitySearch } from "@/components/search/FacilitySearch";
 import { useTitle } from "@/lib/useTitle";
 
 const photos = [
-  { image: checkup, thumbnail: checkupThumb, label: "Patient voices", alt: "A clinician checks a patient’s blood pressure" },
-  { image: support, thumbnail: supportThumb, label: "Small gestures", alt: "Hands held in support" },
-  { image: family, thumbnail: familyThumb, label: "Care for families", alt: "A family during a checkup" },
-  { image: story, thumbnail: storyThumb, label: "Your story", alt: "A woman smiles at her phone" },
+  { image: checkup, thumbnail: checkupThumb, label: "Patient voices", alt: "A clinician checks a patient’s blood pressure",
+    title: "Your experience.", accent: "A clearer choice.",
+    description: "The things you noticed can help the next person know what to expect. Share your hospital or clinic experience, in your own words." },
+  { image: support, thumbnail: supportThumb, label: "Small gestures", alt: "Hands held in support",
+    title: "Small gestures.", accent: "They stay with us.",
+    description: "Did someone take the time to listen or explain what came next? Tell us what made a difference." },
+  { image: family, thumbnail: familyThumb, label: "Care for families", alt: "A family during a checkup",
+    title: "When family needs care.", accent: "Details matter.",
+    description: "Share what your family experienced so someone else knows what to ask before their visit." },
+  { image: story, thumbnail: storyThumb, label: "Your story", alt: "A woman smiles at her phone",
+    title: "Your visit.", accent: "Your own words.",
+    description: "Tell us what went well or what could have gone better. Both can help the next person." },
 ];
 
 export default function LandingPage() {
@@ -41,8 +49,8 @@ export default function LandingPage() {
       <img className="review-hero-photo" src={photo.image} alt={photo.alt} fetchPriority="high" />
       <div className="home-hero wide-container"><div className="hero-copy">
         <p className="eyebrow">REAL PEOPLE. REAL PERSPECTIVE.</p>
-        <h1 id="review-hero-title">Your experience.<br /><span>A clearer choice.</span></h1>
-        <p className="hero-intro">The things you noticed can help the next person know what to expect. Share your hospital or clinic experience, in your own words.</p>
+        <h1 id="review-hero-title">{photo.title}<br /><span>{photo.accent}</span></h1>
+        <p className="hero-intro">{photo.description}</p>
         <a className="hero-cta" href="#find-facility">Share my experience <span aria-hidden="true">↗</span></a>
         <p className="hero-reassurance">You choose how your name appears before sending.</p>
       </div></div>
