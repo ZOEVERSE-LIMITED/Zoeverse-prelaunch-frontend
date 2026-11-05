@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getReviewForm, saveReviewSession } from "@/api";
+import { discardReviewSession, getReviewForm, saveReviewSession } from "@/api";
 import { clearDraft, describeAge, loadDraft, saveDraft } from "@/lib/review/draft";
 import { isPinnedVersion, useFormVersion } from "@/lib/review/formVersion";
-import { pruneAnswers, resolveScreen, screenErrors, visibleScreens } from "@/lib/review/rules";
+import { canFinishEarly, pruneAnswers, resolveScreen, screenErrors, visibleScreens } from "@/lib/review/rules";
 import { clearSession, loadSession } from "@/lib/review/session";
 import { Button } from "@/components/ui/Button";
 import { QuestionField } from "./QuestionField";
@@ -24,9 +24,12 @@ export function ReviewFlow({ facility }) {
   const [errors, setErrors] = useState({});
   const [offeredDraft, setOfferedDraft] = useState(null);
   const [session, setSession] = useState(null);
+  const [discarding, setDiscarding] = useState(false);
+  const [discardError, setDiscardError] = useState(null);
 
   const headingRef = useRef(null);
   const restored = useRef(false);
+  const saveQueue = useRef(Promise.resolve());
 
   const startHref = `/review/${encodeURIComponent(facility.id)}/start`;
 
@@ -45,7 +48,7 @@ export function ReviewFlow({ facility }) {
     let live = true;
     const controller = new AbortController();
 
-    getReviewForm(facility.id, pinnedVersion, controller.signal)
+    getReviewForm(facility.id, pinnedVersion ?? session.formVersion, controller.signal)
       .then((result) => {
         if (!live) return;
         setConfig(result);
@@ -90,16 +93,23 @@ export function ReviewFlow({ facility }) {
         screenId: nextScreenId,
       });
 
-      void saveReviewSession({
-        draftId: session.draftId,
-        answers: nextAnswers,
-        screenId: nextScreenId,
-      }).catch(() => {
-        /* Deliberately silent — see above. */
+      saveQueue.current = saveQueue.current.then(() => saveReviewSession({
+        draftId: session.draftId, answers: nextAnswers, screenId: nextScreenId,
+      })).catch(() => {
+        /* The local copy remains available if the network save fails. */
       });
     },
     [config, facility.id, session],
   );
+
+  useEffect(() => {
+    if (!config || !session || offeredDraft || discarding) return;
+    const screens = visibleScreens(config, answers).filter((screen) => !screen.ownRoute);
+    const screen = screens[Math.min(screenIndex, screens.length - 1)];
+    if (!screen) return;
+    const timer = window.setTimeout(() => persist(answers, screen.id), 1000);
+    return () => window.clearTimeout(timer);
+  }, [answers, config, session, screenIndex, offeredDraft, discarding, persist]);
 
   if (failed) {
     return (
@@ -250,16 +260,26 @@ export function ReviewFlow({ facility }) {
         </p>
         <button
           type="button"
-          onClick={() => {
-            clearDraft(facility.id);
-            clearSession(facility.id);
-            navigate("/");
+          disabled={discarding}
+          onClick={async () => {
+            setDiscarding(true);
+            setDiscardError(null);
+            try {
+              await discardReviewSession(session.draftId);
+              clearDraft(facility.id);
+              clearSession(facility.id);
+              navigate("/");
+            } catch {
+              setDiscardError("We couldn’t discard this draft. Check your connection and try again.");
+              setDiscarding(false);
+            }
           }}
           className="min-h-tap rounded px-2 text-caption text-ink-soft underline underline-offset-4"
         >
           Discard and start again
         </button>
       </div>
+      {discardError && <p className="mt-3 text-small text-danger" role="alert">{discardError}</p>}
 
       {/* A plain bar, not an animated one. It is information, not decoration, and
           it costs nothing on a slow device. */}
@@ -301,6 +321,14 @@ export function ReviewFlow({ facility }) {
         <Button type="button" onClick={goNext} className="w-full">
           {screenIndex + 1 >= answerScreens ? "Continue to the last step" : "Continue"}
         </Button>
+        {screenIndex + 1 < answerScreens && canFinishEarly(config, answers) ? (
+          <Button type="button" variant="secondary" className="w-full" onClick={() => {
+            persist(answers, current.id);
+            navigate(`/review/${encodeURIComponent(facility.id)}/consent?short=1`);
+          }}>
+            Finish with what I’ve shared
+          </Button>
+        ) : null}
         {screenIndex > 0 ? (
           <Button type="button" variant="secondary" onClick={goBack} className="w-full">
             Back

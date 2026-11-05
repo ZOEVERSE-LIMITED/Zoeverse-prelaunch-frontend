@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { getReviewForm, isApiError, submitReview } from "@/api";
 import { clearDraft, loadDraft } from "@/lib/review/draft";
 import { useFormVersion } from "@/lib/review/formVersion";
@@ -10,6 +10,8 @@ import { ConsentStep } from "./ConsentStep";
 
 export function ConsentFlow({ facility }) {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const submissionMode = params.get("short") === "1" ? "short" : "full";
   const pinnedVersion = useFormVersion();
 
   const [stage, setStage] = useState("consent"); // consent | sending
@@ -36,7 +38,7 @@ export function ConsentFlow({ facility }) {
     let live = true;
     const controller = new AbortController();
 
-    getReviewForm(facility.id, pinnedVersion, controller.signal)
+    getReviewForm(facility.id, pinnedVersion ?? session.formVersion, controller.signal)
       .then((result) => {
         if (!live) return;
         setConfig(result);
@@ -85,6 +87,7 @@ export function ConsentFlow({ facility }) {
         answers: finalAnswers,
         nameDisplayPreference,
         consent,
+        submissionMode,
       });
 
       // Only after the server has it. Clearing earlier would lose somebody's
@@ -101,6 +104,8 @@ export function ConsentFlow({ facility }) {
         setSubmitError("You have already reviewed this facility.");
       } else if (isApiError(error) && error.code === "review_session_expired") {
         setSubmitError("This review session expired. Enter your name again to continue.");
+      } else if (isApiError(error) && error.code === "validation") {
+        setSubmitError("Some answers need checking. Go back to your review to check the details you’ve entered.");
       } else if (isApiError(error) && error.isRetryable) {
         setSubmitError("We could not send it. Check your connection and try again.");
       } else {
@@ -114,7 +119,7 @@ export function ConsentFlow({ facility }) {
       {totalScreens ? (
         <>
           <p className="num text-caption uppercase tracking-wide text-ink-soft">
-            Step {totalScreens} of {totalScreens}
+            {submissionMode === "short" ? "Final step" : `Step ${totalScreens} of ${totalScreens}`}
           </p>
           <div
             className="mt-2 h-1 w-full overflow-hidden rounded-sm bg-line"
@@ -135,6 +140,7 @@ export function ConsentFlow({ facility }) {
       </p>
 
       <div className="mt-6">
+        {submissionMode === "short" && <p className="mb-6 text-body text-ink-muted">You’re sending the answers you’ve shared so far. The remaining questions are optional. Choose how your name appears and confirm below.</p>}
         {stage === "consent" && config && answers ? (
           <>
             <ConsentStep

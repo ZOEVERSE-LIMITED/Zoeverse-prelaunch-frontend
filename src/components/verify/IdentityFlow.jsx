@@ -13,6 +13,9 @@ export function IdentityFlow({ facility }) {
   const pinnedVersion = useFormVersion();
   const [config, setConfig] = useState(null);
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailReminder, setEmailReminder] = useState(false);
+  const [emailError, setEmailError] = useState(null);
   const [stage, setStage] = useState("name");
   const [error, setError] = useState(null);
   const [totalScreens, setTotalScreens] = useState(null);
@@ -47,6 +50,11 @@ export function IdentityFlow({ facility }) {
   async function begin(event) {
     event.preventDefault();
     const reviewerName = name.trim();
+    const reviewerEmail = email.trim();
+    if (reviewerEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(reviewerEmail)) {
+      setEmailError("Enter a valid email address, or leave this blank.");
+      return;
+    }
     const minLength = nameField?.minLength ?? 2;
     const maxLength = nameField?.maxLength ?? 120;
 
@@ -63,7 +71,7 @@ export function IdentityFlow({ facility }) {
     setError(null);
     try {
       const existing = loadDraft(facility.id, pinnedVersion ?? "")?.draftId;
-      const session = await startReviewSession({ facilityId: facility.id, reviewerName, draftId: existing });
+      const session = await startReviewSession({ facilityId: facility.id, reviewerName, draftId: existing, ...(reviewerEmail ? { email: reviewerEmail, emailReminder } : {}) });
 
       if (session.alreadyReviewed) {
         setStage("already");
@@ -73,6 +81,7 @@ export function IdentityFlow({ facility }) {
       saveSession(facility.id, {
         draftId: session.draftId,
         reviewerName: session.reviewerName,
+        formVersion: session.formVersion,
         expiresAt: session.expiresAt,
       });
       navigate(reviewHref);
@@ -141,6 +150,19 @@ export function IdentityFlow({ facility }) {
                 aria-describedby={describedBy("reviewer-name", false, !!error)}
               />
             </Field>
+          </div>
+          <div className="mt-6">
+            <Field htmlFor="reviewer-email" label="Your email" optional error={emailError}
+              hint="We’ll send a thank-you email after you submit your review. Your address stays private.">
+              <TextInput id="reviewer-email" type="email" autoComplete="email" inputMode="email"
+                value={email} maxLength={254} placeholder="you@example.com"
+                onChange={(event) => { setEmail(event.target.value); setEmailError(null); }}
+                invalid={!!emailError} aria-describedby={describedBy("reviewer-email", true, !!emailError)} />
+            </Field>
+            {email.trim() && <label className="mt-4 flex min-h-tap items-start gap-3 text-small text-ink-muted">
+              <input type="checkbox" checked={emailReminder} onChange={(event) => setEmailReminder(event.target.checked)} className="mt-1 h-5 w-5 shrink-0 accent-teal-ink" />
+              <span>Email me one reminder if I leave my review unfinished.</span>
+            </label>}
           </div>
           <Button type="submit" className="mt-6 w-full">Start my review</Button>
         </form>

@@ -395,6 +395,15 @@ export function screenErrors(screen, config, answers) {
   return errors;
 }
 
+// A short review still needs the visit details and the first experience section.
+export function canFinishEarly(config, answers) {
+  const screens = visibleScreens(config, answers).filter((screen) => !screen.ownRoute);
+  const checkpoint = screens.findIndex((screen) => screen.id === "experience_one");
+  return answers.visitConfirmed === true && checkpoint >= 0 && countScoredAnswered(config, answers) >= (config.minScoredAnswers ?? 0) && screens.slice(0, checkpoint + 1).every(
+    (screen) => Object.keys(screenErrors(screen, config, answers)).length === 0,
+  );
+}
+
 /** Every question id the config knows about, visible or not. */
 function knownIds(config) {
   const known = new Set();
