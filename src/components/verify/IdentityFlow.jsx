@@ -161,7 +161,7 @@ export function IdentityFlow({ facility }) {
             </Field>
             {email.trim() && <label className="mt-4 flex min-h-tap items-start gap-3 text-small text-ink-muted">
               <input type="checkbox" checked={emailReminder} onChange={(event) => setEmailReminder(event.target.checked)} className="mt-1 h-5 w-5 shrink-0 accent-teal-ink" />
-              <span>Email me one reminder if I leave my review unfinished.</span>
+              <span>Email me reminders every 10 hours while my review is unfinished.</span>
             </label>}
           </div>
           <Button type="submit" className="mt-6 w-full">Start my review</Button>
