@@ -12,6 +12,7 @@ export const getConsentNotice = reviewsApi.getConsent;
 export const startReviewSession = reviewsApi.startSession;
 export const resumeReviewSession = reviewsApi.resumeSession;
 export const discardReviewSession = reviewsApi.discardSession;
+export const unsubscribeNewsletter = reviewsApi.unsubscribeNewsletter;
 export const saveReviewSession = reviewsApi.saveSession;
 export const submitReview = reviewsApi.submit;
 export const getLegalDocument = contentApi.getLegalDocument;

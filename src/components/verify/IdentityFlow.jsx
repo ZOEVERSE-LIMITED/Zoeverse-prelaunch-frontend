@@ -14,7 +14,7 @@ export function IdentityFlow({ facility }) {
   const [config, setConfig] = useState(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [emailReminder, setEmailReminder] = useState(false);
+  const [newsletterSubscribe, setNewsletterSubscribe] = useState(false);
   const [emailError, setEmailError] = useState(null);
   const [stage, setStage] = useState("name");
   const [error, setError] = useState(null);
@@ -71,7 +71,7 @@ export function IdentityFlow({ facility }) {
     setError(null);
     try {
       const existing = loadDraft(facility.id, pinnedVersion ?? "")?.draftId;
-      const session = await startReviewSession({ facilityId: facility.id, reviewerName, draftId: existing, ...(reviewerEmail ? { email: reviewerEmail, emailReminder } : {}) });
+      const session = await startReviewSession({ facilityId: facility.id, reviewerName, draftId: existing, ...(reviewerEmail ? { email: reviewerEmail, newsletterSubscribe } : {}) });
 
       if (session.alreadyReviewed) {
         setStage("already");
@@ -153,15 +153,15 @@ export function IdentityFlow({ facility }) {
           </div>
           <div className="mt-6">
             <Field htmlFor="reviewer-email" label="Your email" optional error={emailError}
-              hint="We’ll send a thank-you email after you submit your review. Your address stays private.">
+              hint="We’ll send a thank-you after submission and reminders every 10 hours if your review is unfinished. Your address stays private.">
               <TextInput id="reviewer-email" type="email" autoComplete="email" inputMode="email"
                 value={email} maxLength={254} placeholder="you@example.com"
                 onChange={(event) => { setEmail(event.target.value); setEmailError(null); }}
                 invalid={!!emailError} aria-describedby={describedBy("reviewer-email", true, !!emailError)} />
             </Field>
             {email.trim() && <label className="mt-4 flex min-h-tap items-start gap-3 text-small text-ink-muted">
-              <input type="checkbox" checked={emailReminder} onChange={(event) => setEmailReminder(event.target.checked)} className="mt-1 h-5 w-5 shrink-0 accent-teal-ink" />
-              <span>Email me reminders every 10 hours while my review is unfinished.</span>
+              <input type="checkbox" checked={newsletterSubscribe} onChange={(event) => setNewsletterSubscribe(event.target.checked)} className="mt-1 h-5 w-5 shrink-0 accent-teal-ink" />
+              <span>Subscribe me to the Zoeverse newsletter.</span>
             </label>}
           </div>
           <Button type="submit" className="mt-6 w-full">Start my review</Button>

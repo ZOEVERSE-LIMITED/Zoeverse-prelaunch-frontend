@@ -9,6 +9,7 @@ export const reviewsApi = {
   startSession: async (payload) => unwrap(await api.post(endpoints.reviews.startSession, payload)),
   resumeSession: async (token) => unwrap(await api.post("/review-sessions/resume", { token })),
   discardSession: async (draftId) => api.delete(endpoints.reviews.saveSession(draftId)),
+  unsubscribeNewsletter: async (token) => unwrap(await api.post('/newsletter/unsubscribe', { token })),
   saveSession: async ({ draftId, ...payload }) =>
     unwrap(await api.patch(endpoints.reviews.saveSession(draftId), payload)),
   submit: async (payload) => unwrap(await api.post(endpoints.reviews.submit, payload)),

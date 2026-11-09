@@ -10,6 +10,7 @@ import ThankYouPage from "@/pages/ThankYouPage";
 import LegalPage from "@/pages/LegalPage";
 import NotFoundPage from "@/pages/NotFoundPage";
 import ResumeReviewPage from "@/pages/ResumeReviewPage";
+import NewsletterUnsubscribePage from "@/pages/NewsletterUnsubscribePage";
 
 
 class ErrorBoundary extends Component {
@@ -85,6 +86,7 @@ export default function App() {
             <Route path="/facility/suggest" element={<SuggestFacilityPage />} />
             <Route path="/thank-you" element={<ThankYouPage />} />
             <Route path="/resume" element={<ResumeReviewPage />} />
+            <Route path="/newsletter/unsubscribe" element={<NewsletterUnsubscribePage />} />
             <Route path="/privacy" element={<LegalPage slug="privacy" />} />
             <Route path="/terms" element={<LegalPage slug="terms" />} />
 
