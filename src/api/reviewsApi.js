@@ -2,6 +2,7 @@ import api from "@/api/axios";
 import { endpoints, unwrap } from "@/api/routes";
 
 export const reviewsApi = {
+  journeyEvent: async (draftId, event) => api.post(`/review-sessions/${encodeURIComponent(draftId)}/events`, event, { timeout: 5000 }),
   getForm: async (facilityId, version, signal) =>
     unwrap(await api.get(endpoints.reviews.form, { params: { facilityId, version }, signal })),
   getConsent: async (formVersion, signal) =>

@@ -7,6 +7,7 @@ import { clearPendingFacility } from "@/lib/review/pendingFacility";
 import { finalizeAnswers, visibleScreens } from "@/lib/review/rules";
 import { clearSession, loadSession } from "@/lib/review/session";
 import { ConsentStep } from "./ConsentStep";
+import { recordJourney, useJourneyScreen } from '@/lib/review/journey';
 
 export function ConsentFlow({ facility }) {
   const navigate = useNavigate();
@@ -68,6 +69,8 @@ export function ConsentFlow({ facility }) {
     };
   }, [facility.id, facilitySource, pinnedVersion, session]);
 
+  useJourneyScreen(session?.draftId, config ? 'consent' : null);
+
   async function send(consent, nameDisplayPreference) {
     if (!session || !config || !answers) return;
     setStage("sending");
@@ -99,6 +102,7 @@ export function ConsentFlow({ facility }) {
       clearPendingFacility(facility.id);
       navigate("/thank-you");
     } catch (error) {
+      recordJourney(session.draftId, 'consent', 'submit_error');
       setStage("consent");
       if (isApiError(error) && error.code === "duplicate_review") {
         setSubmitError("You have already reviewed this facility.");

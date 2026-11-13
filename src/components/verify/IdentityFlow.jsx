@@ -7,6 +7,7 @@ import { visibleScreens } from "@/lib/review/rules";
 import { loadSession, saveSession } from "@/lib/review/session";
 import { Button } from "@/components/ui/Button";
 import { describedBy, Field, TextInput } from "@/components/ui/Field";
+import { recordJourney } from '@/lib/review/journey';
 
 export function IdentityFlow({ facility }) {
   const navigate = useNavigate();
@@ -78,6 +79,8 @@ export function IdentityFlow({ facility }) {
         return;
       }
 
+      recordJourney(session.draftId, 'identity', 'view');
+      recordJourney(session.draftId, 'identity', 'continue');
       saveSession(facility.id, {
         draftId: session.draftId,
         reviewerName: session.reviewerName,

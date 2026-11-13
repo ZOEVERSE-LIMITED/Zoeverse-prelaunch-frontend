@@ -7,6 +7,7 @@ import { canFinishEarly, pruneAnswers, resolveScreen, screenErrors, visibleScree
 import { clearSession, loadSession } from "@/lib/review/session";
 import { Button } from "@/components/ui/Button";
 import { QuestionField } from "./QuestionField";
+import { recordJourney, useJourneyScreen } from '@/lib/review/journey';
 
 
 function seedSource(facility) {
@@ -111,6 +112,10 @@ export function ReviewFlow({ facility }) {
     return () => window.clearTimeout(timer);
   }, [answers, config, session, screenIndex, offeredDraft, discarding, persist]);
 
+  const trackingScreens = config ? visibleScreens(config, answers).filter(s => !s.ownRoute) : [];
+  const trackingScreen = !offeredDraft && !discarding ? trackingScreens[Math.min(screenIndex, trackingScreens.length - 1)]?.id : null;
+  useJourneyScreen(session?.draftId, trackingScreen);
+
   if (failed) {
     return (
       <div>
@@ -203,12 +208,14 @@ export function ReviewFlow({ facility }) {
   function goNext() {
     const found = screenErrors(current, config, answers);
     if (Object.keys(found).length > 0) {
+      recordJourney(session.draftId, current.id, 'validation', { fieldIds: Object.keys(found) });
       setErrors(found);
       const first = document.getElementById(`${Object.keys(found)[0]}-error`);
       first?.scrollIntoView({ block: "center", behavior: "smooth" });
       return;
     }
 
+    recordJourney(session.draftId, current.id, 'continue');
     const next = screenIndex + 1;
     setErrors({});
 
@@ -323,6 +330,7 @@ export function ReviewFlow({ facility }) {
         </Button>
         {screenIndex + 1 < answerScreens && canFinishEarly(config, answers) ? (
           <Button type="button" variant="secondary" className="w-full" onClick={() => {
+            recordJourney(session.draftId, current.id, 'short_finish');
             persist(answers, current.id);
             navigate(`/review/${encodeURIComponent(facility.id)}/consent?short=1`);
           }}>
