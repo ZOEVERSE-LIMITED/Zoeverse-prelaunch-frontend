@@ -109,7 +109,7 @@ export function FacilitySearch() {
         enterKeyHint="search"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Hospital name or area"
+        placeholder="Search Hospital name or area"
         aria-describedby={hintId}
         className="mt-2 min-h-tap w-full rounded border border-line bg-surface px-4 py-3 text-body text-ink placeholder:text-ink-soft focus:border-teal-ink"
       />
