@@ -156,7 +156,7 @@ export function IdentityFlow({ facility }) {
           </div>
           <div className="mt-6">
             <Field htmlFor="reviewer-email" label="Your email" optional error={emailError}
-              hint="We’ll send a thank-you after submission and reminders every 10 hours if your review is unfinished. Your address stays private.">
+              hint="Thank You for joining us">
               <TextInput id="reviewer-email" type="email" autoComplete="email" inputMode="email"
                 value={email} maxLength={254} placeholder="you@example.com"
                 onChange={(event) => { setEmail(event.target.value); setEmailError(null); }}
